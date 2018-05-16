@@ -1,0 +1,26 @@
+admin:
+  port: 9990
+  ip: 0.0.0.0
+
+namers:
+- kind: io.l5d.consul
+  prefix: /io.l5d.consul
+  host: consul
+  port: 8500
+  includeTag: true
+  setHost: false
+  useHealthCheck: true
+
+routers:
+- protocol: http
+  identifier:
+    kind: io.l5d.canary
+    domain: service.consul
+  dtab: |
+    /disabled        => /#/io.l5d.consul/dc1/noncanary;
+    /enabled         => 1 * /#/io.l5d.consul/dc1/canary & 9 * /#/io.l5d.consul/dc1/noncanary;
+    /svc/disabled    => /$/io.buoyant.http.subdomainOfPfx/service.consul/disabled;
+    /svc/enabled     => /$/io.buoyant.http.subdomainOfPfx/service.consul/enabled;
+  servers:
+  - ip: 0.0.0.0
+    port: 4140
