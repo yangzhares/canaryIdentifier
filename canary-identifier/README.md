@@ -2,7 +2,7 @@
 
 Canary Identifier is inherited from Linkerd built-in HeaderTokenIdentifier, but it enables you setup canary deployment per service 
 via a HTTP request Header `X-Service-Mesh-Canary` value. Additional, we add a new configuration option `domain`, by default, it's empty,
-you need configure it when `Host` header includes domain, because most of situations, remove of the `domain` part, then get your service name, e.g. 
+you need configure it when `Host` header includes domain, because most of situations, need remove of the `domain` part, then get your service name, e.g. 
 
 ``` bash
 curl -s -H "Host: nginx.service.consul" -H "X-Service-Mesh-Canary: nginx=enabled" localhost:14140
